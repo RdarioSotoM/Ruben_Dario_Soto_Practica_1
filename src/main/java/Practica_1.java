@@ -81,6 +81,43 @@ public class Practica_1 {
         }
     }
 
+    public static boolean Cero_Uno(int N, int A) {
+
+        for (int i = 0; i < A; i++) {
+            if (N == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void Mensaje_Modificado(int Total, int[] Mensaje_Modificado) {
+        int Random = (int) (Math.random() * 3);
+        int absoluto = Math.abs(Random - 2);
+        System.out.println("El mensaje sufrirá " + absoluto + " modificacion/nes");
+        while (Random < 2) {
+            Random++;
+            int Random_position = (int) (Math.random() * Total);
+            if (Cero_Uno(Mensaje_Modificado[Random_position], Total) == true) {
+                Mensaje_Modificado[Random_position] = 1;
+            } else {
+                Mensaje_Modificado[Random_position] = 0;
+            }
+        }
+    }
+
+    public static void Bit_global(int[] Mensaje_F) {
+        int contador_global = 0;
+        for (int i = 0; i < Mensaje_F.length; i++) {
+            if (Mensaje_F[i] == 1) {
+                contador_global++;
+            }
+        }
+        if (contador_global % 2 != 0) {
+            Mensaje_F[0] = 1;
+        }
+    }
+
     public static void main(String arg[]) {
         Scanner Rango = new Scanner(System.in);
         System.out.println("Elija un tamaño para el mensaje.");
@@ -104,8 +141,29 @@ public class Practica_1 {
         int[] B_paridad = new int[Paridad(T) - 1];
         int contador = 0;
         int R_P = 0;   //Recorrer Paridad
-        Paridades_0_1(B_paridad, Mensaje_F, contador, R_P);
 
+
+        Paridades_0_1(B_paridad, Mensaje_F, contador, R_P);
         Relleno_con_Paridades(Mensaje_F, B_paridad);
+        Bit_global(Mensaje_F);
+        
+        System.out.println("El mensaje final será:");
+        for(int i = 0; i < Mensaje_F.length; i++){
+            System.out.print(Mensaje_F[i]);
+        }
+        
+        System.out.println(" ");
+        
+        int[] Mensaje_Modificado = new int[Total];
+        for (int i = 0; i < Mensaje_Modificado.length; i++) {
+            Mensaje_Modificado[i] = Mensaje_F[i];
+        }
+        Mensaje_Modificado(Total, Mensaje_Modificado);
+        
+        System.out.println("El mensaje modificado es:");
+        for(int i = 0; i < Mensaje_Modificado.length; i++){
+            System.out.print(Mensaje_Modificado[i]);
+        }
     }
+
 }
