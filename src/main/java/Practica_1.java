@@ -94,7 +94,6 @@ public class Practica_1 {
     public static void Mensaje_Modificado(int Total, int[] Mensaje_Modificado) {
         int Random = (int) (Math.random() * 3);
         int absoluto = Math.abs(Random - 2);
-        System.out.println("El mensaje sufrirá " + absoluto + " modificacion/nes");
         while (Random < 2) {
             Random++;
             int Random_position = (int) (Math.random() * Total);
@@ -126,6 +125,8 @@ public class Practica_1 {
 
         Relleno(Mensaje);
         Lectura(Mensaje);
+        ///////////         Sender          ///////////////////////////
+        
         System.out.println(" ");
         System.out.println("Necesitas " + Paridad(T) + " bits de paridad mas el global.");
         Paridad(T);
@@ -135,7 +136,6 @@ public class Practica_1 {
         int n = 0;
         int[] Mensaje_F = new int[Total];
 
-        System.out.println(" ");
         Relleno_Sin_Paridades(Mensaje_F, Mensaje, n);
 
         int[] B_paridad = new int[Paridad(T) - 1];
@@ -152,18 +152,37 @@ public class Practica_1 {
             System.out.print(Mensaje_F[i]);
         }
         
+        //////////////////          Noise           ////////////////////////
         System.out.println(" ");
         
         int[] Mensaje_Modificado = new int[Total];
-        for (int i = 0; i < Mensaje_Modificado.length; i++) {
-            Mensaje_Modificado[i] = Mensaje_F[i];
-        }
+        System.arraycopy(Mensaje_F, 0, Mensaje_Modificado, 0, Mensaje_Modificado.length);
         Mensaje_Modificado(Total, Mensaje_Modificado);
         
         System.out.println("El mensaje modificado es:");
         for(int i = 0; i < Mensaje_Modificado.length; i++){
             System.out.print(Mensaje_Modificado[i]);
         }
+        
+        //////////////////          Reciver           ////////////////////////
+        
+        System.out.println(" ");
+        
+        int modificaciones = 0;
+        int localizador = 0;
+        
+        for(int i = 0; i < Mensaje_F.length; i++){
+            if(Mensaje_F[i] != Mensaje_Modificado[i]){
+                modificaciones++;
+                localizador = i;
+            }
+        }
+        
+        /// Este switch lo ha creado Netbean, yo hice unos elseif, pero así quedó más bonito.
+        switch (modificaciones) {
+            case 1 -> System.out.println("hay un erro en el bit " + localizador);
+            case 2 -> System.out.println("El mensaje ha sufrido 2 modificaciones");
+            default -> System.out.println("El mensaje no ha sufrido ninguna modificación");
+        }
     }
-
 }
